@@ -41,9 +41,15 @@ const App = () => {
     setNewNumber('')
   }
 
-  const findPerson = (event) => {
-    setNewSearch(event.target.value)
+  const filterPersons = (event) => {
+    const searchingName = event.target.value
+    setNewSearch(searchingName)
 
+    const filteredPersons = persons.filter(person => 
+      person.name.toLowerCase().startsWith(searchingName)  
+    ) // if input '' - return whole array (because all starts with '' :) )
+
+    setShownPersons(filteredPersons)
   }
 
   return (
@@ -52,7 +58,7 @@ const App = () => {
       <Input 
         label="filter shown with "
         value={newSearch}
-        onChange={findPerson}
+        onChange={filterPersons}
       />
       <form>
         <h2>Add a new</h2>
