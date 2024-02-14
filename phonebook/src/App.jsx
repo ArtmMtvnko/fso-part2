@@ -3,6 +3,16 @@ import Persons from './components/Person'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 
+import axios from 'axios'
+
+axios.get('http://localhost:3001/notes')
+  .then(response => {
+    const notes = response.data
+    console.log(notes)
+  })
+// TODO move request to App.jsx
+
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
