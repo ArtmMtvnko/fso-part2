@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
+
+import servises from './services/persons'
+
 import Persons from './components/Person'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
-
-import servises from './services/persons'
+import SuccessNotification from './components/SuccessNotification'
+import ErrorNotification from './components/ErrorNotification'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -11,15 +14,31 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newSearch, setNewSearch] = useState('')
   const [shownPersons, setShownPersons] = useState(persons)
+  const [successAddMessage, setSuccessAddMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
+
+  const renderPersons = (personsArr) => {
+    setPersons(personsArr)
+    setShownPersons(personsArr)
+  }
 
   useEffect(() => {
     servises
       .getAll()
       .then(people => {
-        setPersons(people)
-        setShownPersons(people)
+        renderPersons(people)
       })
   }, [])
+
+  const notify = (name, success = true) => {
+    if (success) {
+      setSuccessAddMessage(`${name} has been added`)
+      setTimeout(() => setSuccessAddMessage(null), 4000)
+    } else {
+      setErrorMessage(`${name} has already been removed from server`)
+      setTimeout(() => setErrorMessage(null), 5000)
+    }
+  }
 
   const addPerson = (e) => {
     e.preventDefault()
@@ -30,7 +49,24 @@ const App = () => {
 
     const existedPerson = persons.find(person => person.name === name)
     if (existedPerson !== undefined) {
-      alert(`${name} is already added to phonebook`)
+      if(confirm(`${name} is already added to phonebook, replace the old number with a new one?`)) {
+        const id = existedPerson.id
+
+        servises
+          .update(id, { name, number })
+          .then(updatedPerson => {
+            renderPersons(persons.map(person => person.id !== id ? person : updatedPerson))
+            setNewName('')
+            setNewNumber('')
+          })
+          .catch(error => {
+            renderPersons(persons.filter(p => p.id !== id))
+            notify(existedPerson.name, false)
+            setNewName('')
+            setNewNumber('')
+          })
+          
+      }
       return
     }
 
@@ -43,12 +79,13 @@ const App = () => {
     servises
       .create(newPerson)
       .then(createdPerson => {
-        setPersons(persons.concat(createdPerson))
-        setShownPersons(persons.concat(createdPerson))
+        renderPersons(persons.concat(createdPerson))
         setNewName('')
         setNewNumber('')
+        notify(createdPerson.name)
       })
 
+    
   }
 
   const filterPersons = (event) => {
@@ -65,6 +102,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <SuccessNotification message={successAddMessage} />
+      <ErrorNotification message={errorMessage} />
       <Filter 
         label="filter shown with "
         value={newSearch}
@@ -81,7 +120,7 @@ const App = () => {
         />
       </form>
       <h2>Numbers</h2>
-      <Persons persons={shownPersons} setPersons={setPersons} setShownPersons={setShownPersons} />
+      <Persons persons={shownPersons} renderPersons={renderPersons} />
     </div>
   )
 }

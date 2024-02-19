@@ -9,16 +9,14 @@ const Person = ({person, onClick}) => {
     )
 }
 
-const Persons = ({ persons, setPersons, setShownPersons }) => {
+const Persons = ({ persons, renderPersons }) => {
     const deleteEntrie = id => {
         console.log(id)
         servises
             .deleteEntrie(id)
             .then(deletedEntrie => {
                 if (window.confirm(`Do you realy want to delete '${deletedEntrie.name}'?`)) {
-                    const filtered = persons.filter(person => person.id !== id)
-                    setPersons(filtered)
-                    setShownPersons(filtered)
+                    renderPersons(persons.filter(person => person.id !== id))
                 }
             })
     }
