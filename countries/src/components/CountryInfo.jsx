@@ -2,18 +2,12 @@ import Weather from "./Weather"
 
 const CountryInfo = ({ country }) => {
     const showLanguages = (languagesObj) => {
-        const languages = []
-
-        for (const key in languagesObj) {
-            if (Object.hasOwnProperty.call(languagesObj, key)) {
-                languages.push(languagesObj[key])
-            }
-        }
+        const languages = Object.keys(languagesObj)
 
         return (
             <ul>
                 {languages.map(lang => 
-                    <li key={lang}>{lang}</li>
+                    <li key={lang}>{languagesObj[lang]}</li>
                 )}
             </ul>
         )

@@ -14,7 +14,6 @@ const api_key = import.meta.env.VITE_WEATHER_API_KEY
 const getWeather = async (location) => {
     const response = await axios.get(`${baseWeatherUrl}&appid=${api_key}&q=${location}`)
     const data = response.data
-    console.log(data)
     return data
 }
 
