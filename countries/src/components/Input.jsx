@@ -1,4 +1,4 @@
-const Input = ({ onChange }) => {
+const Input = ({ value, onChange }) => {
     const firstUpperLetter = str => {
         return str.charAt(0).toUpperCase() + str.slice(1)
     } 
@@ -6,7 +6,10 @@ const Input = ({ onChange }) => {
     return (
         <div>
             find countries
-            <input onChange={e => onChange(firstUpperLetter(e.target.value))} />
+            <input
+                value={value}
+                onChange={e => onChange(firstUpperLetter(e.target.value))}
+            />
         </div>
 
     )

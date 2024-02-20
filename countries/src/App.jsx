@@ -19,8 +19,11 @@ function App() {
 
   return (
     <div>
-      <Input onChange={setQuery} />
-      <Countries countries={countries} query={query} />
+      <Input 
+        value={query}
+        onChange={setQuery}
+      />
+      <Countries countries={countries} query={query} setQuery={setQuery} />
     </div>
   )
 }
