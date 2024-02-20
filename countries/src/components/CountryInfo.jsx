@@ -1,3 +1,5 @@
+import Weather from "./Weather"
+
 const CountryInfo = ({ country }) => {
     const showLanguages = (languagesObj) => {
         const languages = []
@@ -30,6 +32,7 @@ const CountryInfo = ({ country }) => {
             <h3>Languages:</h3>
             {showLanguages(country.languages)}
             <img src={country.flags.svg} alt={country.flags.alt} style={flagStyles} />
+            <Weather countryName={country.name.common} />
         </div>
     )
 }
