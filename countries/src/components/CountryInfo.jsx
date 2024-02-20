@@ -17,6 +17,11 @@ const CountryInfo = ({ country }) => {
         )
     }
 
+    const flagStyles = {
+        width: 200,
+        border: '1px solid black'
+    }
+
     return (
         <div>
             <h1>{country.name.common}</h1>
@@ -24,7 +29,7 @@ const CountryInfo = ({ country }) => {
             <p>Area: {country.area}</p>
             <h3>Languages:</h3>
             {showLanguages(country.languages)}
-            <img src={country.flags.svg} alt={country.flags.alt} width={200}/>
+            <img src={country.flags.svg} alt={country.flags.alt} style={flagStyles} />
         </div>
     )
 }
