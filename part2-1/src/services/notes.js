@@ -1,5 +1,10 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/notes'
+
+// const baseUrl = 'http://localhost:3001/api/notes'
+// removed domain because we deploy built files
+// that contains in the same directory that our backend
+// so it is automaticly add localhost:port before /api/notes
+const baseUrl = '/api/notes'
 
 const getAll = () => {
   const request = axios.get(baseUrl)
