@@ -13,20 +13,14 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newSearch, setNewSearch] = useState('')
-  const [shownPersons, setShownPersons] = useState(persons)
   const [successAddMessage, setSuccessAddMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
-
-  const renderPersons = (personsArr) => {
-    setPersons(personsArr)
-    // setShownPersons(personsArr)
-  }
 
   useEffect(() => {
     servises
       .getAll()
       .then(people => {
-        renderPersons(people)
+        setPersons(people)
       })
   }, [])
 
@@ -55,12 +49,12 @@ const App = () => {
         servises
           .update(id, { name, number })
           .then(updatedPerson => {
-            renderPersons(persons.map(person => person.id !== id ? person : updatedPerson))
+            setPersons(persons.map(person => person.id !== id ? person : updatedPerson))
             setNewName('')
             setNewNumber('')
           })
           .catch(() => {
-            renderPersons(persons.filter(p => p.id !== id))
+            setPersons(persons.filter(p => p.id !== id))
             notify(existedPerson.name, false)
             setNewName('')
             setNewNumber('')
@@ -79,7 +73,7 @@ const App = () => {
     servises
       .create(newPerson)
       .then(createdPerson => {
-        renderPersons(persons.concat(createdPerson))
+        setPersons(persons.concat(createdPerson))
         setNewName('')
         setNewNumber('')
         notify(createdPerson.name)
@@ -124,7 +118,7 @@ const App = () => {
         />
       </form>
       <h2>Numbers</h2>
-      <Persons persons={filterPersons()} renderPersons={renderPersons} />
+      <Persons persons={filterPersons()} setPersons={setPersons} />
     </div>
   )
 }
