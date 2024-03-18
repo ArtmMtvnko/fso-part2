@@ -19,7 +19,7 @@ const App = () => {
 
   const renderPersons = (personsArr) => {
     setPersons(personsArr)
-    setShownPersons(personsArr)
+    // setShownPersons(personsArr)
   }
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const App = () => {
             setNewName('')
             setNewNumber('')
           })
-          .catch(error => {
+          .catch(() => {
             renderPersons(persons.filter(p => p.id !== id))
             notify(existedPerson.name, false)
             setNewName('')
@@ -88,15 +88,19 @@ const App = () => {
     
   }
 
-  const filterPersons = (event) => {
-    const searchingName = event.target.value
-    setNewSearch(searchingName)
+  // const filterPersons = (event) => {
+  //   const searchingName = event.target.value
+  //   setNewSearch(searchingName)
 
-    const filteredPersons = persons.filter(person => 
-      person.name.toLowerCase().startsWith(searchingName)  
-    ) // if input '' - return whole array (because all starts with '' :) )
+  //   const filteredPersons = persons.filter(person => 
+  //     person.name.toLowerCase().startsWith(searchingName)  
+  //   ) // if input '' - return whole array (because all starts with '' :) )
 
-    setShownPersons(filteredPersons)
+  //   setShownPersons(filteredPersons)
+  // }
+
+  const filterPersons = () => {
+    return persons.filter(person => (person.name.toLowerCase().startsWith(newSearch)))
   }
 
   return (
@@ -107,7 +111,7 @@ const App = () => {
       <Filter 
         label="filter shown with "
         value={newSearch}
-        onChange={filterPersons}
+        setNewSearch={setNewSearch}
       />
       <form>
         <h2>Add a new</h2>
@@ -120,7 +124,7 @@ const App = () => {
         />
       </form>
       <h2>Numbers</h2>
-      <Persons persons={shownPersons} renderPersons={renderPersons} />
+      <Persons persons={filterPersons()} renderPersons={renderPersons} />
     </div>
   )
 }

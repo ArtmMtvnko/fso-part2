@@ -1,11 +1,11 @@
 import Input from "./Input"
 
-const Filter = ({label, value, onChange}) => {
+const Filter = ({label, value, setNewSearch}) => {
     return (
         <Input 
             label={label}
             value={value}
-            onChange={onChange}
+            onChange={(event) => setNewSearch(event.target.value)}
         />
     )
 }

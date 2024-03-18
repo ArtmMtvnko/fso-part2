@@ -5,14 +5,14 @@ const PersonForm = (props) => {
     return (
         <>
             <Input 
-            label="name: "
-            value={props.newName}
-            onChange={props.setNewName}
+                label="name: "
+                value={props.newName}
+                onChange={props.setNewName}
             />
             <Input 
-            label="number: "
-            value={props.newNumber}
-            onChange={props.setNewNumber}
+                label="number: "
+                value={props.newNumber}
+                onChange={props.setNewNumber}
             />
             <Button text="add" onClick={props.onSubmit} type="submit" />
         </>
