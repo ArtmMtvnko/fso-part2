@@ -49,6 +49,7 @@ const App = () => {
         servises
           .update(id, { name, number })
           .then(updatedPerson => {
+            console.log(updatedPerson)
             setPersons(persons.map(person => person.id !== id ? person : updatedPerson))
             setNewName('')
             setNewNumber('')
